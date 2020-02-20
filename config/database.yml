@@ -1,19 +1,20 @@
 default: &default
   adapter: mysql2
-  host: localhost
+  port: 3308
+  host: 127.0.0.1
   username: root
 
 development:
   <<: *default
-  database: vanillia_rails_6_0_2_1
+  database: demo_rails_6_0_2_1
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: vanillia_rails_6_0_2_1_test
+  database: demo_rails_6_0_2_1_test
 
 production:
   <<: *default
-  database: vanillia_rails_6_0_2_1_production
+  database: demo_rails_6_0_2_1_production
