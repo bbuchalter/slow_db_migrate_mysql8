@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Run 'bin/mysql_docker 5.7.29' in a new terminal window."
+echo "Run 'bin/mysql_docker 5.7.29' in a new terminal window and wait until you see 3 slow log table outputs"
 read -p "Press enter when ready." wait
 
 echo "Setting up database"
@@ -21,8 +21,9 @@ echo "We'll remove the migrations we generated and db/schema.rb changes so we ca
 git checkout .
 git clean -f > /dev/null
 
-echo "Now time to use MySQL 8. CTRL+C the existing MySQL container."
-echo "Run 'bin/mysql_docker 8.0.19' in a new terminal window. Press enter when ready."
+echo "Now time to use MySQL 8, but before we do, note that there are no slow query log entries."
+echo "OK, now CTRL+C the existing MySQL container."
+echo "Run 'bin/mysql_docker 8.0.19' in a new terminal window and wait until you see 3 slow log table outputs"
 read -p "Press enter when ready." wait
 
 echo "Setting up database"
@@ -37,3 +38,7 @@ bin/rails db:migrate > /dev/null
 
 echo "BENCHMARK bin/rails db:migrate on MySQL 8.0.19 with 400 tables setup, no work to do"
 time bin/rails db:migrate
+
+echo "See how long that took?! Also note that the MySQL slow query logs."
+
+echo "OK, there you have it!"
