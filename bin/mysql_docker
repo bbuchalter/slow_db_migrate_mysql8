@@ -21,9 +21,9 @@ docker run \
   -v "$LOCAL_SLOW_LOG_PATH":"$REMOTE_SLOW_LOG_PATH" \
   mysql:8.0.19 \
   --slow-query-log=ON \
-  --long-query-time=0.5 \
   --log_slow_admin_statements=ON \
   --log_slow_extra=ON \
+  --long-query-time=0.1 \
   --slow-query-log-file=$REMOTE_FILE
 
 echo "Now tailing $LOCAL_FILE, CTRL+C to quit"
