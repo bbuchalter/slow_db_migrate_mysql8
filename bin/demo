@@ -18,8 +18,8 @@ time bin/rails db:migrate
 
 echo "OK, that's our baseline. Let's cleanup and run it with MySQL 8.0.19."
 echo "We'll remove the migrations we generated and db/schema.rb changes so we can get a MySQL 8 baseline."
-git checkout .
-git clean -f > /dev/null
+git checkout db/schema.rb
+git clean -f db/migrate
 
 echo "Now time to use MySQL 8, but before we do, note that there are no slow query log entries."
 echo "OK, now CTRL+C the existing MySQL container."
