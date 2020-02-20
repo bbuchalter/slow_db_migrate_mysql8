@@ -2,8 +2,10 @@
 
 require 'pathname'
 require 'securerandom'
+require 'fileutils'
 
 current_date = 20200219200125
+FileUtils.mkdir_p 'db/migrate'
 
 400.times do
   next_date = current_date + 1
