@@ -24,7 +24,6 @@ docker run \
   mysql:$MYSQL_VERSION \
   --slow-query-log=ON \
   --log_slow_admin_statements=ON \
-  --log_slow_extra=ON \
   --long-query-time=0.1 \
   --slow-query-log-file=$REMOTE_FILE
 
