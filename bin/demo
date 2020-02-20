@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+echo "Run 'bin/mysql_docker 5.7.29' in a new terminal window."
+read -p "Press enter when ready." wait
+
+echo "Setting up database"
+bin/rails db:create
+
+echo "BENCHMARK bin/rails db:migrate on MySQL 5.7.29 with no tables setup, no work to do"
+time bin/rails db:migrate
+
+echo "Now let's generate 400 tables each with 4 columns and run the migrations."
+bin/create_migrations.rb
+bin/rails db:migrate
+
+echo "BENCHMARK bin/rails db:migrate on MySQL 5.7.29 with 400 tables setup, no work to do"
+time bin/rails db:migrate
+
+echo "OK, that's our baseline. Let's cleanup and run it with MySQL 8.0.19."
+echo "We'll remove the migrations we generated and db/schema.rb changes so we can get a MySQL 8 baseline."
+git checkout .
+git clean -f
+
+echo "Now time to use MySQL 8. CTRL+C the existing MySQL container."
+echo "Run 'bin/mysql_docker 8.0.19' in a new terminal window. Press enter when ready."
+read -p "Press enter when ready." wait
+
+echo "Setting up database"
+bin/rails db:create
+
+echo "BENCHMARK bin/rails db:migrate on MySQL 8.0.19 with no tables setup, no work to do"
+time bin/rails db:migrate
+
+echo "Now let's generate 400 tables each with 4 columns and run the migrations."
+bin/create_migrations.rb
+bin/rails db:migrate
+
+echo "BENCHMARK bin/rails db:migrate on MySQL 8.0.19 with 400 tables setup, no work to do"
+time bin/rails db:migrate
