@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+MYSQL_VERSION=$1
+DOCKER_CONTAINER_NAME="mysql_$MYSQL_VERSION"
 LOCAL_PORT=3308
 LOCAL_SLOW_LOG_PATH="$(pwd)/log"
 REMOTE_SLOW_LOG_PATH="/var/log/mysql"
@@ -11,15 +13,15 @@ REMOTE_FILE="$REMOTE_SLOW_LOG_PATH/$SLOW_LOG_FILE"
 rm -f "$LOCAL_FILE"
 touch "$LOCAL_FILE"
 
-echo "MySQL starting, listening on $LOCAL_PORT"
+echo "Starting $DOCKER_CONTAINER_NAME, listening on $LOCAL_PORT"
 echo -n "Container ID: "
 docker run \
-  --name mysql8.0 \
+  --name $DOCKER_CONTAINER_NAME \
   -d \
   -p $LOCAL_PORT:3306 \
   --env MYSQL_ALLOW_EMPTY_PASSWORD=1 \
   -v "$LOCAL_SLOW_LOG_PATH":"$REMOTE_SLOW_LOG_PATH" \
-  mysql:8.0.19 \
+  mysql:$MYSQL_VERSION \
   --slow-query-log=ON \
   --log_slow_admin_statements=ON \
   --log_slow_extra=ON \
@@ -29,9 +31,9 @@ docker run \
 echo "Now tailing $LOCAL_FILE, CTRL+C to quit"
 function finish {
   echo ""
-  echo "MySQL stopping..."
-  docker stop mysql8.0 > /dev/null
-  docker rm mysql8.0 > /dev/null
+  echo "Stopping $DOCKER_CONTAINER_NAME..."
+  docker stop $DOCKER_CONTAINER_NAME > /dev/null
+  docker rm $DOCKER_CONTAINER_NAME > /dev/null
 }
 trap finish EXIT
 
