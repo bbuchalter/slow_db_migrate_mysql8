@@ -41,4 +41,4 @@ time bin/rails db:migrate
 
 echo "See how long that took?! Also note that the MySQL slow query logs."
 
-echo "OK, there you have it!"
+echo "OK, there you have it! Sometimes the slow query logs don't appear, you can just run 'time bin/rails db:migrate' to give it a try."
